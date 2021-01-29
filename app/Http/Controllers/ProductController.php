@@ -86,7 +86,10 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(storage_path('/app/public/images/products'), $imageName);  
-            unlink(storage_path('/app/public/images/products/') . $product->image);
+            if($product->image != 'default.png') {
+                 unlink(storage_path('/app/public/images/products/') . $product->image);
+            }
+           
         } else {
             $imageName = $product->image;     
         }
@@ -115,7 +118,10 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::where('id', $id)->first();
-        unlink(storage_path('/app/public/images/products/') . $product->image);
+        if($product->image != 'default.png') {
+            unlink(storage_path('/app/public/images/products/') . $product->image);
+       }
+
         if ($product->delete()) {
             return response()->json([
                 'status' => true,
