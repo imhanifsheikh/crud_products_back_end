@@ -33,8 +33,7 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
             'description' => 'required',
-            'price' => 'required|numeric',
-            'image' => 'required|file|image',
+            'price' => 'required|numeric',            
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -46,7 +45,7 @@ class ProductController extends Controller
             $imageName = time() . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(storage_path('/app/public/images/products'), $imageName);
         } else {
-            $imageName = 'no_image.png';
+            $imageName = 'default.png';
         }
         $request->image =  $imageName;
         
@@ -76,8 +75,7 @@ class ProductController extends Controller
          $validator = Validator::make($request->all(), [
             'title' => 'required|string',
             'description' => 'required',
-            'price' => 'required|numeric',    
-             
+            'price' => 'required|numeric',                 
         ]);
         if ($validator->fails()) {
             return response()->json([
